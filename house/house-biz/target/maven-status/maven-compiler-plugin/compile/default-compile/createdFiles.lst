@@ -1,0 +1,12 @@
+com\xuyu\house_biz\service\UserService.class
+com\xuyu\house_biz\service\MailService$1.class
+com\xuyu\house_biz\service\AgencyService.class
+com\xuyu\house_biz\service\HouseService.class
+com\xuyu\house_biz\service\RecommendService.class
+com\xuyu\house_biz\mapper\HouseMapper.class
+com\xuyu\house_biz\mapper\UserMapper.class
+com\xuyu\house_biz\mapper\AgencyMapper.class
+com\xuyu\house_biz\config\DruidConfig.class
+com\xuyu\house_biz\service\CityService.class
+com\xuyu\house_biz\service\MailService.class
+com\xuyu\house_biz\service\FileService.class
