@@ -48,7 +48,7 @@ public class FileService {
 
     public static String getResourcePath(){
         File file = new File(".");
-        String absolutePath = file.getAbsolutePath();
+        String absolutePath = file.getAbsolutePath();//获得绝对路径
         return absolutePath;
     }
 
