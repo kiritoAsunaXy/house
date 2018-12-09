@@ -1,0 +1,26 @@
+body{
+   width: 1520px;
+    height: 700px;
+    margin: 0px;
+    background-image: url("/static/images/img_0547.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+
+#title{
+    color: blue;
+    font-family: 华文彩云;
+}
+
+.formDiv{
+    background: gainsboro;
+    width: 300px;
+    height: 180px;
+    position: absolute;
+
+    left: 570px;
+    top: 300px;
+}

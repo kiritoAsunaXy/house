@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--字体图标-->
+    <link href="/static/javaex/pc/css/icomoon.css" rel="stylesheet" />
+    <!--动画-->
+    <link href="/static/javaex/pc/css/animate.css" rel="stylesheet" />
+    <!--骨架样式-->
+    <link href="/static/javaex/pc/css/common.css" rel="stylesheet" />
+    <!--皮肤（缇娜）-->
+    <link href="/static/javaex/pc/css/skin/tina.css" rel="stylesheet" />
+    <!--jquery，不可修改版本-->
+    <script src="/static/javaex/pc/lib/jquery-1.7.2.min.js"></script>
+    <!--全局动态修改-->
+    <script src="/static/javaex/pc/js/common.js"></script>
+    <!--核心组件-->
+    <script src="/static/javaex/pc/js/javaex.min.js"></script>
+    <!--表单验证-->
+    <script src="/static/javaex/pc/js/javaex-formVerify.js"></script>
+</head>
+<body>
+<!--引入了左侧菜单栏-->
+<div th:replace="leftmenu :: html"></div>
+
+<!--右侧内容-->
+<div class="admin-right">
+    <!--引入头部文件-->
+    <div th:replace="head :: html"></div>
+
+    <!--内容-->
+    <div class="admin-content">
+        <!--面包屑导航-->
+        <div class="content-header">
+            <div class="breadcrumb">
+                <span>后台主页</span>
+                <span class="divider">/</span>
+                <span class="active">类别表</span>
+            </div>
+        </div>
+
+        <!--全部主体内容-->
+        <div class="list-content">
+            <!--块元素-->
+            <div class="block">
+                <!--修饰块元素名称-->
+                <div class="banner">
+                    <p class="tab fixed">博文</p>
+                </div>
+
+                <!--正文内容-->
+                <div class="main">
+                    <!--主体内容-->
+                    <div class="list-content">
+                        <!--块元素-->
+                        <div class="block">
+                            <!--页面有多个表格时，可以用于标识表格-->
+                            <h2>博文</h2>
+                            <!--右上角的返回按钮-->
+                            <a href="javascript:history.back();">
+                                <button class="button wathet" style="position: absolute;right: 20px;top: 16px;"><span class="icon-arrow_back"></span> 返回</button>
+                            </a>
+
+                            <!--正文内容-->
+                            <div class="main">
+
+                                <!--表格上方的搜索操作-->
+                                <div style="text-align:right;margin-bottom:10px;">
+
+                                    <!-- 选择类型检索 -->
+                                    <select id="type_id" class="no-shadow">
+                                        <option value="">请选择文章类型</option>
+                                           <tr th:each="typeinfo : ${typeList}">
+                                                <option value="${typeinfo.id}" th:text="${typeinfo.name}"></option>
+                                            </tr>
+
+
+                                        <!--<c:forEach items="${typeList}" var="typeInfo" varStatus="status" >
+                                            <tr>
+                                                <option value="${typeInfo.id}">${typeInfo.name}</option>
+                                            </tr>
+                                        </c:forEach>-->
+                                    </select>
+
+
+                                    <!-- 选择日期范围检索 -->
+                                    <input type="text" id="date2" class="date" style="width: 300px;" value="" readonly/>
+
+                                    <!-- 标题检索 -->
+                                    <input type="text" class="text" id="title" value="" placeholder="检索文章标题" />
+                                    <!-- 点击查询按钮 -->
+                                    <button class="button blue" style="margin-top: -3px;" onclick="search()"><span class="icon-search"></span></button>
+
+                                </div>
+
+                                <!--表格上方的操作元素，添加、删除等-->
+                                <div class="operation-wrap">
+                                    <div class="buttons-wrap">
+                                        <button id="addbtn" class="button blue"><span class="icon-plus"></span> 添加</button>
+                                    </div>
+                                </div>
+                                <table id="table" class="table color2">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 30px"><input type="checkbox" class="fill listen-1" /> </th>
+                                        <th style="width: 80px">序号</th>
+                                        <th style="width: 130px">文章类型</th>
+                                        <th style="text-align:center">文章标题</th>
+                                        <th style="width: 180px">发布日期</th>
+                                        <th style="width: 140px">阅读量</th>
+                                        <th style="width: 70px">编辑</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                  <tr th:each="entity : ${pageInfo.list}">
+                                      <td><input type="checkbox" class="fill listen-1-2" name="id" value="${entity.id}"/> </td>
+                                      <td th:text="${entity.id}"></td>
+                                      <td th:text="${entity.name}"></td>
+                                      <td th:text="${entity.title}"></td>
+                                      <td th:text="${entity.update_time}"></td>
+                                      <td th:text="${entity.view_count}"></td>
+                                      <td>
+                                          <a href="#">
+                                          <button class="button wathet"><span class="icon-mode_edit"></span>编辑</button>
+                                          </a>
+                                          </td>
+                                  </tr>
+                                            <!--<c:forEach items="${pageInfo.list}" var="entity" varStatus="status" >-->
+                                                <!--<tr>-->
+                                                    <!--<td><input type="checkbox" class="fill listen-1-2" name="id" value="${entity.id}"/> </td>-->
+                                                    <!--<td>${entity.id}</td>-->
+                                                    <!--<td>${entity.name}</td>-->
+                                                    <!--<td>${entity.title}</td>-->
+                                                    <!--<td>${entity.update_time}</td>-->
+                                                    <!--<td>${entity.view_count}</td>-->
+                                                    <!--<td>-->
+                                                        <!--<a href="edit.action?id=${entity.id}">-->
+                                                            <!--<button class="button wathet"><span class="icon-mode_edit"></span>编辑</button>-->
+                                                        <!--</a>-->
+                                                    <!--</td>-->
+                                                <!--</tr>-->
+                                            <!--</c:forEach>-->
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--分页显示栏-->
+            <div class="page">
+                <ul id="page" class="pagination"></ul>
+            </div>
+
+            <!-- 批量处理 -->
+            <!--块元素-->
+            <div class="block">
+                <!--banner用来修饰块元素的名称-->
+                <div class="banner">
+                    <p class="tab fixed">批量操作<span class="hint">Batch Opt</span></p>
+                </div>
+                <!--正文内容-->
+                <div class="main" style="margin-bottom:200px">
+                    <input type="radio" class="fill" name="radio" value="move"/>批量移动到模块:
+                    <select id="type_id2" class="no-shadow">
+                        <option value="">请选择</option>
+                        <!--<c:forEach items="${typeList}" var="typeInfo" varStatus="status" >-->
+                            <!--<tr>-->
+                                <!--<option value="${typeInfo.id}">${typeInfo.name}</option>-->
+                            <!--</tr>-->
+                        <!--</c:forEach>-->
+                    </select>
+                    </br>
+                    <input type="radio" class="fill" name="radio" value="recycle_bin" />批量放入回收站
+                    </br>
+                    <button  id="submit" class="button green" style="margin-top:20px"><span class="icon-check"></span>提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+    //批量操作的时候的下拉列表框
+    javaex.select({
+        id : "type_id2",
+
+    });
+
+    //通过类型检索
+    javaex.select({
+        id : "type_id",
+
+    });
+
+    //通过日期检索
+    javaex.date({
+        id : "date2",		// 承载日期组件的id
+        monthNum : 2,		// 2代表选择范围日期
+        alignment:"right",
+        startDate : "",	// 开始日期
+        endDate : "",		// 结束日期
+        // 重新选择日期之后返回一个时间对象
+        callback : function(rtn) {
+            startDate=rtn.startDate;
+            endDate=rtn.endDate;
+            //alert(rtn.startDate + " - " + rtn.endDate);
+        }
+    });
+
+    var obj=$("#pages").html();
+    var now=$("#now").html();
+    javaex.page({
+        id: "page",
+        pageCount: obj,	// 总页数
+        currentPage: now,// 默认选中第几页
+        position: "center",
+        // 返回当前选中的页数
+        callback: function (rtn) {
+            pageCount = rtn.pageNum;
+            window.location.href = "/getType?pageNum=" + rtn.pageNum;
+        }
+    });
+
+    javaex.menu({
+        id: "menu",	// 菜单id
+        isAutoSelected: true
+    });
+
+
+
+
+    //单击添加按钮，可以添加一条表单来输入数据
+    $("#addbtn").click(function () {
+        var html='';
+        html+='<tr>';
+        html+='<td><input type="checkbox" class="fill listen-1-2" name="id" value=""/> </td>';
+        html+='<td><input type="text" class="text" name="sort" data-type="正整数"  value="序号将自动生成"  disabled/></td>';
+        html+='<td><input id="addtypename_1" type="text" class="text" name="name" data-type="必填" error-msg="请输入分类名称" placeholder="请输入分类名称" value=""/></td>';
+        html+='<td><button id="sava_add" class="button green""><span class="icon-check2"></span> 保存</button></td>'
+        html+='</tr>';
+        $("#table thead").append(html);
+
+        $(this).attr("disabled","disabled");
+        //重新渲染。防止之前加载的js约束无法作用于动态添加的对象
+        javaex.render();
+        //添加了类型后点击保存进行持久化操作
+        $("#sava_add").click(function () {
+            var obj = $('input[name=name]').val();
+
+            $.ajax({
+                url: '/sava_addType',
+                data: {'data': obj},
+                success: function (result) {
+                    console.log(result);//打印服务端返回的数据(调试用)
+                    if (result.code == 000000) {
+                        window.location.href = "/getType?pageNum=1";
+                    }
+                }
+
+            });
+        });
+
+    });
+
+    // function get() {
+    //     var obj=$('input[name=name]').val();
+    //     alert(obj);
+    // }
+
+    //$("input[type=checkbox]:checked")
+    //批量选中删除
+
+
+    $("#delbtn").click(function(){
+        var array=new Array();
+        $.each($('input:checkbox'),function(){
+            if(this.checked){
+                /*window.alert("你选了："+
+                    $('input[type=checkbox]:checked').length+"个，其中有："+$(this).val());*/
+
+                array.push($(this).val());
+
+                /*alert(array[count]);*/
+            }
+        });
+
+
+        $.ajax({
+            url:'delType',
+            dataType : "json",
+            traditional:'true',
+            data:{'data':array},
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == 000000) {
+                    window.location.href = "/getType?pageNum=1";
+                }
+            }
+        });
+
+    });
+
+
+
+
+</script>
+</body>
+</html>
